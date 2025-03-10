@@ -13,9 +13,9 @@ try:
     PORT = 31471
     sock.connect((HOST,PORT))
 
-except:
+except Exception as e:
 
-    print('ERROR: THE APPLICATION WAS NOT STARTED ...\n')
+    print(f'ERROR: THE APPLICATION WAS NOT STARTED ...\n{e}')
     sys.exit()
 
 print('THE APPLICATION WAS STARTED ...\n')

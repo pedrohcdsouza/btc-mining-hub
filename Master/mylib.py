@@ -42,13 +42,13 @@ def startBot():
                     pendTrans = [f'{k}: {v[1]}' for k, v in transactions.items() if k not in founded.keys()]
                     sendMessage(chat_id, f'PEND TRANS:\n{pendTrans}')
                 elif text == '/clients':
-                    clients = [f'{k}: {v[0]}' for k,v in agents]
+                    clients = [f'{k}: {v[0]}' for k,v in agents.items()]
                     sendMessage(chat_id, f'CLIENTS: \n{clients}')
                 else:
                     sendMessage(chat_id, 'ERROR: Invalid command ...')
                 offset = update['update_id'] + 1
-    except:
-        print('ERROR: SOMETHING WRONG WITH TELEGRAM BOT ...\n')
+    except Exception as e:
+        print(f'ERROR: SOMETHING WRONG WITH TELEGRAM BOT ...\n{e}')
 
 # Function to write the transactions
 
@@ -98,7 +98,7 @@ def writeTransactions(sock):
 
                 print('ERROR: Invalid command ...\n')
 
-        except SystemExit: # Headling the server close function
+        except SystemExit: # Handling the server close function
 
             print('THE SERVER WAS CLOSED ...\n')
             break
@@ -108,8 +108,6 @@ def writeTransactions(sock):
             print('ERROR: Invalid command ...\n')
             print(exp)
             continue
-
-
 
 def hearAgents(conn, addr):
 
@@ -200,18 +198,17 @@ def hearAgents(conn, addr):
 def connectAgents(sock):
     while True:
         
-        # try:
-        conn, addr = sock.accept()
-        agents[addr] = ['',conn]
-        hearAgents(conn, addr)
+        try:
+            conn, addr = sock.accept()
+            agents[addr] = ['',conn]
+            hearAgents(conn, addr)
 
-        # When the client disconnects or is forcibly disconnected, it removes the agent from the variable
-        
-        # except ConnectionResetError:
-        #     del agents[addr]
-        #     continue
+        except ConnectionResetError:
+            del agents[addr]
+            continue
             
-        # except:
-        #     del agents[addr]
-        #     conn.close()
-        #     continue
+        except Exception as e:
+            del agents[addr]
+            conn.close()
+            print(f'ERROR: {e}')
+            continue

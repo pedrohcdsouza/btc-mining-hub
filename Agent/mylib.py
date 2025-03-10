@@ -108,7 +108,7 @@ def startApplication(sock, name):
             time.sleep(10)
         
         elif protocol == b'Q':
-            print('THE SERVER WAS CLOSEDn\n\n')
+            print('THE SERVER WAS CLOSED\n\n')
             sys.exit()
         
         elif protocol == b'T':

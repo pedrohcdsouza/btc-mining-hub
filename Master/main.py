@@ -14,9 +14,9 @@ try:
     sock.bind((HOST,PORT))
     sock.listen(10) # Maximum user accepted at one time
 
-except:
+except Exception as e:
 
-    print(f'ERROR: THE SERVER WAS NOT STARTED ...\n')
+    print(f'ERROR: THE SERVER WAS NOT STARTED ...\n{e}')
     sys.exit()
 
 print('THE SERVER WAS STARTED ...\n')
